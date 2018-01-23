@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Parser", "src\SmartChord.Parser\SmartChord.Parser.csproj", "{1E398D28-52A3-4354-8471-656CC56B4709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Transposer", "src\SmartChord.Transposer\SmartChord.Transposer.csproj", "{23E44234-858C-4C8F-9A47-60D9178E637B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{781CFE15-039E-4BB9-BD09-DA693BC5B938}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4C49672D-A178-4478-9FE7-5CF813568128}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Parser.Tests", "tests\SmartChord.Parser.Tests\SmartChord.Parser.Tests.csproj", "{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Transposer.Tests", "tests\SmartChord.Transposer.Tests\SmartChord.Transposer.Tests.csproj", "{A5121476-4284-4CD0-A54B-ECC930A3AE2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E398D28-52A3-4354-8471-656CC56B4709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E398D28-52A3-4354-8471-656CC56B4709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E398D28-52A3-4354-8471-656CC56B4709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E398D28-52A3-4354-8471-656CC56B4709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23E44234-858C-4C8F-9A47-60D9178E637B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23E44234-858C-4C8F-9A47-60D9178E637B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23E44234-858C-4C8F-9A47-60D9178E637B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23E44234-858C-4C8F-9A47-60D9178E637B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E398D28-52A3-4354-8471-656CC56B4709} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
+		{23E44234-858C-4C8F-9A47-60D9178E637B} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
+		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0} = {4C49672D-A178-4478-9FE7-5CF813568128}
+		{A5121476-4284-4CD0-A54B-ECC930A3AE2E} = {4C49672D-A178-4478-9FE7-5CF813568128}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3CC8026-180C-423F-B6DC-C672241B6ACE}
+	EndGlobalSection
+EndGlobal
