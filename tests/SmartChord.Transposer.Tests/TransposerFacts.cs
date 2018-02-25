@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using FluentAssertions;
 using Xunit;
-wdw
+
    
 namespace SmartChord.Transposer.Tests
 {
