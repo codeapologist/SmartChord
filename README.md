@@ -1,4 +1,4 @@
-![Smart Chord](/images/icon.png)
+![Smart Chord](/images/smart-chord-icon.png)
 
 # Smart Chord [![NuGet](https://img.shields.io/nuget/v/SmartChordTransposer.svg)](https://nuget.org/packages/SmartChordTransposer) [![Build status](https://ci.appveyor.com/api/projects/status/pk68p3nayy34b7js?svg=true)](https://ci.appveyor.com/project/codeapologist/smartchordtransposer)
 
