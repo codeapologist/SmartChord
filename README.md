@@ -1,8 +1,8 @@
-![Smart Chord Transposer](/images/icon.png)
+![Smart Chord](images/icon.png)
 
 # Smart Chord Transposer [![NuGet](https://img.shields.io/nuget/v/SmartChordTransposer.svg)](https://nuget.org/packages/SmartChordTransposer) [![Build status](https://ci.appveyor.com/api/projects/status/pk68p3nayy34b7js?svg=true)](https://ci.appveyor.com/project/codeapologist/smartchordtransposer)
 
-A .NET library for transposing chord sheets.
+A .NET library to parse, transpose, and analyze chord sheets
 
 ## Usage
 
