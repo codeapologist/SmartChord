@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>codeapologist</authors>
+    <owners>codeapologist</owners>
+    <licenseUrl>https://github.com/codeapologist/SmartChord/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/codeapologist/SmartChord</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET chord sheet parser</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>chord parser song note music chord-sheet key</tags>
+  </metadata>
+</package>

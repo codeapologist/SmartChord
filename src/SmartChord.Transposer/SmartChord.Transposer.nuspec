@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>codeapologist</authors>
+    <owners>codeapologist</owners>
+    <licenseUrl>https://github.com/codeapologist/SmartChord/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/codeapologist/SmartChord</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET chord sheet transposer</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>chord transposer song note music chord-sheet key</tags>
+  </metadata>
+</package>
