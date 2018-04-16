@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartChord.Parser\SmartChord.Parser.csproj">
-      <Project>{1E398D28-52A3-4354-8471-656CC56B4709}</Project>
+      <Project>{1e398d28-52a3-4354-8471-656cc56b4709}</Project>
       <Name>SmartChord.Parser</Name>
     </ProjectReference>
   </ItemGroup>

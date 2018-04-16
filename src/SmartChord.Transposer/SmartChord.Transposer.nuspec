@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/codeapologist/SmartChord</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A .NET chord sheet transposer</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Fixing nuget package</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>chord transposer song note music chord-sheet key</tags>
   </metadata>
