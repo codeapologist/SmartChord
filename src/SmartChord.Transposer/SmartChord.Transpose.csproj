@@ -7,8 +7,8 @@
     <ProjectGuid>{23E44234-858C-4C8F-9A47-60D9178E637B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartChord.Transposer</RootNamespace>
-    <AssemblyName>SmartChord.Transposer</AssemblyName>
+    <RootNamespace>SmartChord.Transpose</RootNamespace>
+    <AssemblyName>SmartChord.Transpose</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

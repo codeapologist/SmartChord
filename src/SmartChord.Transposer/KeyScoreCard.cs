@@ -5,7 +5,7 @@ using System.Linq;
 using SmartChord.Parser;
 using SmartChord.Parser.Models;
 
-namespace SmartChord.Transposer
+namespace SmartChord.Transpose
 {
     public class KeyScoreCard
     {

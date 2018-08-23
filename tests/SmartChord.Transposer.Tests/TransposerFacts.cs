@@ -25,7 +25,7 @@ namespace SmartChord.Transposer.Tests
         [Fact]
         public void Changing_without_original_key_specified_works()
         {
-            var transposer = new Transposer();
+            var transposer = new Transpose.Transposer();
 
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -41,7 +41,7 @@ namespace SmartChord.Transposer.Tests
         [Fact]
         public void Changing_with_original_key_specified_works()
         {
-            var transposer = new Transposer();
+            var transposer = new Transpose.Transposer();
                 
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -58,7 +58,7 @@ namespace SmartChord.Transposer.Tests
         [Fact]
         public void Song_with_ambiguous_elements_works()
         {
-            var transposer = new Transposer();
+            var transposer = new Transpose.Transposer();
 
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 

@@ -4,7 +4,7 @@ using SmartChord.Parser;
 using SmartChord.Parser.Models;
 using SmartChord.Parser.Models.Elements;
 
-namespace SmartChord.Transposer
+namespace SmartChord.Transpose
 {
     public class Transposer
     {

@@ -81,9 +81,9 @@
       <Project>{1E398D28-52A3-4354-8471-656CC56B4709}</Project>
       <Name>SmartChord.Parser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\SmartChord.Transposer\SmartChord.Transposer.csproj">
+    <ProjectReference Include="..\..\src\SmartChord.Transposer\SmartChord.Transpose.csproj">
       <Project>{23E44234-858C-4C8F-9A47-60D9178E637B}</Project>
-      <Name>SmartChord.Transposer</Name>
+      <Name>SmartChord.Transpose</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

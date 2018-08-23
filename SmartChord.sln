@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Parser", "src\SmartChord.Parser\SmartChord.Parser.csproj", "{1E398D28-52A3-4354-8471-656CC56B4709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Transposer", "src\SmartChord.Transposer\SmartChord.Transposer.csproj", "{23E44234-858C-4C8F-9A47-60D9178E637B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Transpose", "src\SmartChord.Transposer\SmartChord.Transpose.csproj", "{23E44234-858C-4C8F-9A47-60D9178E637B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{781CFE15-039E-4BB9-BD09-DA693BC5B938}"
 EndProject
@@ -14,6 +14,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Parser.Tests", "tests\SmartChord.Parser.Tests\SmartChord.Parser.Tests.csproj", "{BF1B48B3-32B8-4866-9B16-0ED25B4238E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Transposer.Tests", "tests\SmartChord.Transposer.Tests\SmartChord.Transposer.Tests.csproj", "{A5121476-4284-4CD0-A54B-ECC930A3AE2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hosts", "hosts", "{FADB2161-2458-4379-8F4A-5D78A1B22159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Extractions", "src\SmartChord.Extractions\SmartChord.Extractions.csproj", "{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.ChordSheets", "src\Components\SmartChord.ChordSheets\SmartChord.ChordSheets.csproj", "{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{DA783A6B-AAB8-426E-8E6D-95A6B4C76794}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Cli", "src\Hosts\SmartChord.Cli\SmartChord.Cli.csproj", "{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.Desktop", "src\Hosts\SmartChord.Desktop\SmartChord.Desktop.csproj", "{687144DD-22F0-4985-905C-5021DBEEA219}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChord.DesktopClient", "src\Hosts\SmartChord.DesktopClient\SmartChord.DesktopClient.csproj", "{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +51,26 @@ Global
 		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5121476-4284-4CD0-A54B-ECC930A3AE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687144DD-22F0-4985-905C-5021DBEEA219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687144DD-22F0-4985-905C-5021DBEEA219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687144DD-22F0-4985-905C-5021DBEEA219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687144DD-22F0-4985-905C-5021DBEEA219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +80,13 @@ Global
 		{23E44234-858C-4C8F-9A47-60D9178E637B} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
 		{BF1B48B3-32B8-4866-9B16-0ED25B4238E0} = {4C49672D-A178-4478-9FE7-5CF813568128}
 		{A5121476-4284-4CD0-A54B-ECC930A3AE2E} = {4C49672D-A178-4478-9FE7-5CF813568128}
+		{FADB2161-2458-4379-8F4A-5D78A1B22159} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
+		{611FFAD0-5E9E-4DCF-98F6-98496DE8E347} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
+		{6EF51324-3ACE-41D0-8DBC-7B0B01F62CCF} = {DA783A6B-AAB8-426E-8E6D-95A6B4C76794}
+		{DA783A6B-AAB8-426E-8E6D-95A6B4C76794} = {781CFE15-039E-4BB9-BD09-DA693BC5B938}
+		{E1B5F70C-61DB-4B9A-B73F-F3FD52F2D2D9} = {FADB2161-2458-4379-8F4A-5D78A1B22159}
+		{687144DD-22F0-4985-905C-5021DBEEA219} = {FADB2161-2458-4379-8F4A-5D78A1B22159}
+		{5DDB66BC-2BA6-4AD0-8CD0-DEB46879D808} = {FADB2161-2458-4379-8F4A-5D78A1B22159}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3CC8026-180C-423F-B6DC-C672241B6ACE}

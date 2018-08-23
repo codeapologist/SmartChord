@@ -1,6 +1,6 @@
 ﻿using SmartChord.Parser.Models;
 
-namespace SmartChord.Transposer
+namespace SmartChord.Transpose
 {
     public class SongStat
     {

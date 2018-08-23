@@ -1,0 +1,35 @@
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
+
+namespace SmartChord.Extractions
+{
+    public class UltimateGuitarExtractor: IExtractor
+    {
+
+        public string GetChordSheetText(string url)
+        {
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
+
+            var html = doc.DocumentNode
+                .SelectNodes("//script")
+                .Single(x => x.InnerText.Contains("window.UGAPP.store.page"));
+            var json = Regex.Replace(html.InnerText, @"^\s*window.UGAPP\.store\.page\s*=", string.Empty);
+
+            json = json.TrimEnd();
+            json = json.TrimEnd(';');
+
+            var o = JObject.Parse(json);
+
+            var chordsheet = (string)o["data"]["tab_view"]["wiki_tab"]["content"];
+
+
+            chordsheet = chordsheet.Replace("[ch]", string.Empty);
+            chordsheet = chordsheet.Replace("[/ch]", string.Empty);
+
+            return chordsheet;
+        }
+    }
+}
