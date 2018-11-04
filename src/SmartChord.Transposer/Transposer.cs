@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using SmartChord.Parser;
 using SmartChord.Parser.Models;
 using SmartChord.Parser.Models.Elements;
@@ -19,24 +20,33 @@ namespace SmartChord.Transpose
             _parser = parser;
         }
 
-        public string ChangeKey(string chordsheet, string destinationKey)
+        public async Task<string> ResolveSongKey(string chordsheet)
         {
             var song = _parser.ParseSong(chordsheet);
+            return await Task.Run( () => ResolveSongKey(song));
+        }
 
+        public async Task<string> ResolveSongKey(Song song)
+        {
             var analyzer = new SongAnalyzer();
-            var key = analyzer.DiscoverKeyOfSong(song);
+            var key = await Task.Run(() => analyzer.DiscoverKeyOfSong(song));
             if (key == Note.Unknown)
             {
                 throw new InvalidOperationException("Chordsheet does not contain any valid chords.");
             }
             var originalKey = key.GetDisplayName();
-
-            return ChangeKey(song, destinationKey, originalKey);
+            return originalKey;
         }
 
-        public string ChangeKey(string chordsheet, string destinationKey, string originalKey)
+        public async Task<string> ChangeKey(string chordsheet, string destinationKey, string originalKey = null)
         {
             var song = _parser.ParseSong(chordsheet);
+
+            if (string.IsNullOrWhiteSpace(originalKey))
+            {
+                originalKey = await ResolveSongKey(song);
+            }
+
             return ChangeKey(song, destinationKey, originalKey);
 
         }

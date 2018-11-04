@@ -1,7 +1,9 @@
-﻿namespace SmartChord.Extractions
+﻿using System.Threading.Tasks;
+
+namespace SmartChord.Extractions
 {
     public interface IExtractor
     {
-        string GetChordSheetText(string filePath);
+        Task<string> GetChordSheetText(string filePath);
     }
 }

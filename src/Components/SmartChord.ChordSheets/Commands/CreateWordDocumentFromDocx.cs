@@ -14,6 +14,7 @@ namespace SmartChord.ChordSheets.Commands
         {
             public string SourceFilename { get; set; }
             public string NewKey { get; set; }
+            public string OriginalKey { get; set; }
             public string DestinationFilename { get; set; }
 
         }
@@ -25,7 +26,7 @@ namespace SmartChord.ChordSheets.Commands
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            public Task<Result> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 var docx = DocX.Load(request.SourceFilename);
                 var paragraphs = docx.Paragraphs.Select(x => x.Text);
@@ -35,7 +36,7 @@ namespace SmartChord.ChordSheets.Commands
                 if (!string.IsNullOrEmpty(request.NewKey))
                 {
                     var transposer = new Transposer();
-                    chordsheet = transposer.ChangeKey(chordsheet, request.NewKey);
+                    chordsheet = await transposer.ChangeKey(chordsheet, request.NewKey, request.OriginalKey);
                 }
 
                 using (var document = DocX.Create(request.DestinationFilename))
@@ -55,7 +56,7 @@ namespace SmartChord.ChordSheets.Commands
                     document.Save();
                 }
 
-                return Task.FromResult(new Result {OutputFilename = request.DestinationFilename});
+                return new Result {OutputFilename = request.DestinationFilename};
             }
 
         }

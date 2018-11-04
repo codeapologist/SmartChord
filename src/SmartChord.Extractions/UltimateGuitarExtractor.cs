@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 
@@ -8,9 +9,16 @@ namespace SmartChord.Extractions
     public class UltimateGuitarExtractor: IExtractor
     {
 
-        public string GetChordSheetText(string url)
+        public async Task<string> GetChordSheetText(string url)
         {
             var web = new HtmlWeb();
+            var chordsheet = await Task.Run(() => Execute(url, web));
+
+            return chordsheet;
+        }
+
+        private static string Execute(string url, HtmlWeb web)
+        {
             var doc = web.Load(url);
 
             var html = doc.DocumentNode
@@ -23,12 +31,11 @@ namespace SmartChord.Extractions
 
             var o = JObject.Parse(json);
 
-            var chordsheet = (string)o["data"]["tab_view"]["wiki_tab"]["content"];
+            var chordsheet = (string) o["data"]["tab_view"]["wiki_tab"]["content"];
 
 
             chordsheet = chordsheet.Replace("[ch]", string.Empty);
             chordsheet = chordsheet.Replace("[/ch]", string.Empty);
-
             return chordsheet;
         }
     }

@@ -59,6 +59,8 @@
     <Compile Include="Commands\CreateWordDocumentFromDocx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\CreateWordDocumentFromUrl.cs" />
+    <Compile Include="Queries\DetermineKeyFromLink.cs" />
+    <Compile Include="Queries\DetermineKeyFromWordDocument.cs" />
     <Compile Include="Queries\TransposeSheetDocx.cs" />
     <Compile Include="Queries\TransposeSheetUrl.cs" />
   </ItemGroup>
@@ -69,6 +71,10 @@
     <ProjectReference Include="..\..\SmartChord.Extractions\SmartChord.Extractions.csproj">
       <Project>{611FFAD0-5E9E-4DCF-98F6-98496DE8E347}</Project>
       <Name>SmartChord.Extractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SmartChord.Parser\SmartChord.Parser.csproj">
+      <Project>{1E398D28-52A3-4354-8471-656CC56B4709}</Project>
+      <Name>SmartChord.Parser</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SmartChord.Transposer\SmartChord.Transpose.csproj">
       <Project>{23E44234-858C-4C8F-9A47-60D9178E637B}</Project>

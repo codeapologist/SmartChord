@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace SmartChord.ChordSheets.Commands
             public string Url { get; set; }
             public string NewKey { get; set; }
             public string DestinationFilename { get; set; }
+            public string OriginalKey { get; set; }
         }
 
         public class Result
@@ -26,7 +28,7 @@ namespace SmartChord.ChordSheets.Commands
 
         public class Handler : IRequestHandler<Command, Result>
         {
-            public Task<Result> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 var web = new HtmlWeb();
                 var doc = web.Load(request.Url);
@@ -34,7 +36,12 @@ namespace SmartChord.ChordSheets.Commands
 
                 var html = doc.DocumentNode
                     .SelectNodes("//script")
-                    .Single(x => x.InnerText.Contains("window.UGAPP.store.page"));
+                    .SingleOrDefault(x => x.InnerText.Contains("window.UGAPP.store.page"));
+
+                if (html == null)
+                {
+                    throw new InvalidOperationException($"Could not find content at the specified url: {request.Url}");
+                }
 
                 var json = Regex.Replace(html.InnerText, @"^\s*window.UGAPP\.store\.page\s*=", string.Empty);
 
@@ -52,7 +59,7 @@ namespace SmartChord.ChordSheets.Commands
                 if (!string.IsNullOrEmpty(request.NewKey))
                 {
                     var transposer = new Transposer();
-                    chordsheet = transposer.ChangeKey(chordsheet, request.NewKey);
+                    chordsheet = await transposer.ChangeKey(chordsheet, request.NewKey, request.OriginalKey);
                 }
 
                 using (DocX document = DocX.Create(request.DestinationFilename))
@@ -72,7 +79,7 @@ namespace SmartChord.ChordSheets.Commands
                     document.Save();
                 }
 
-                return Task.FromResult(new Result{OutputFilename = request.DestinationFilename});
+                return new Result{OutputFilename = request.DestinationFilename};
             }
         }
     }

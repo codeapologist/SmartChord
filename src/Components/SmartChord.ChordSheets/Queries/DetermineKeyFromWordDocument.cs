@@ -6,13 +6,11 @@ using SmartChord.Transpose;
 
 namespace SmartChord.ChordSheets.Queries
 {
-    public static class TransposeSheetDocx
+    public static class DetermineKeyFromWordDocument
     {
         public class Query : IRequest<string>
         {
             public string FilePath { get; set; }
-            public string NewKey { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, string>
@@ -23,7 +21,8 @@ namespace SmartChord.ChordSheets.Queries
 
                 var text = await extractor.GetChordSheetText(request.FilePath);
                 var transposer = new Transposer();
-                return await transposer.ChangeKey(text, request.NewKey);
+            
+                return await transposer.ResolveSongKey(text);
             }
         }
     }

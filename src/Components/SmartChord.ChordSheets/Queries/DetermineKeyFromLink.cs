@@ -9,13 +9,11 @@ using SmartChord.Transpose;
 
 namespace SmartChord.ChordSheets.Queries
 {
-    public static class TransposeSheetUrl
+    public static class DetermineKeyFromLink
     {
         public class Query : IRequest<string>
         {
             public string Url { get; set; }
-            public string NewKey { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, string>
@@ -38,16 +36,15 @@ namespace SmartChord.ChordSheets.Queries
                 var o = JObject.Parse(json);
 
                 //This will be "Apple"
-                string chordsheet = (string) o["data"]["tab_view"]["wiki_tab"]["content"];
+                string chordsheet = (string)o["data"]["tab_view"]["wiki_tab"]["content"];
 
 
                 chordsheet = chordsheet.Replace("[ch]", string.Empty);
                 chordsheet = chordsheet.Replace("[/ch]", string.Empty);
 
                 var transposer = new Transposer();
-                return await transposer.ChangeKey(chordsheet, request.NewKey);
+                return await transposer.ResolveSongKey(chordsheet);
             }
         }
     }
 }
-    

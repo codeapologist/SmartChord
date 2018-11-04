@@ -43,6 +43,7 @@ namespace SmartChord.Desktop
                 cfg.For<IMediator>().Use<Mediator>();
                 cfg.For<IWindowManager>().Use<WindowManager>();
                 cfg.For<IEnvironment>().Use<EnvironmentAdapter>();
+                cfg.For<IDialogService>().Use<DialogService>();
             });
         }
 

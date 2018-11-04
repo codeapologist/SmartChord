@@ -3,33 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="MainWindowView" Height="200" Width="500">
+        Title="SmartChord" Height="225" Width="630" 
+        cal:Message.Attach="[Event Loaded] = [Action OnLoaded]"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="0">Source</Label>
-        <TextBox Grid.Column="1" Grid.Row="0" x:Name="Source"  />
+        <Grid x:Name="SourceIsVisible" Grid.Column="1" Grid.Row="0">
+        <TextBox x:Name="Source"  Margin="5, 0"/>
+            </Grid>
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Margin="5, 0">
+            <RadioButton GroupName="InputType" x:Name="OnFileInputSelected" IsChecked="True" Margin="5, 0">File</RadioButton>
+            <RadioButton GroupName="InputType" x:Name="OnUrlSelected" >Url</RadioButton>
+        </StackPanel>
         <Label Grid.Column="0" Grid.Row="1">Destination</Label>
 
-        <TextBox Grid.Column="1" Grid.Row="1" x:Name="Destination"/>
+        <TextBox Grid.Column="1" Grid.Row="1" x:Name="Destination" Margin="5, 0"/>
         <Label Grid.Column="0" Grid.Row="2">New Key</Label>
 
-        <TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey"/>
-        <Button Grid.Column="1" Grid.Row="3" x:Name="OnGo">Go</Button>
+        <TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey" Margin="5, 0"/>
+        <Label Grid.Column="0" Grid.Row="3">Original Key</Label>
 
-        <Label Grid.Column="0" Grid.Row="4">Url</Label>
+        <Grid x:Name="SourceUrlIsVisible" Grid.Column="1" Grid.Row="0">
+            <TextBox  x:Name="SourceUrl" cal:Message.Attach="[Event TextChanged] = [Action OnTextChanged]" Margin="5, 0"/>
+        </Grid>
+        <TextBox Grid.Column="1" Grid.Row="3" x:Name="OriginalKey" Margin="5, 0"/>
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5">
+            <Button x:Name="OnBrowseSource" Margin="5, 0">Browse...</Button>
+            <Button  x:Name="OnGo">Run</Button>
+        </StackPanel>
 
-        <TextBox Grid.Column="1" Grid.Row="4" x:Name="SourceUrl"/>
+        
     </Grid>
 </Window>
