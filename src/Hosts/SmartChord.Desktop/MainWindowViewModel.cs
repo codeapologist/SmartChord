@@ -112,11 +112,11 @@ namespace SmartChord.Desktop
             }
         }
 
-        public void OnGo()
+        public async void OnGo()
         {
             if (SourceUrlIsVisible)
             {
-                _mediator.Send(new CreateWordDocumentFromUrl.Command
+                await _mediator.Send(new CreateWordDocumentFromUrl.Command
                 {
                     Url = SourceUrl,
                     NewKey = NewKey,
@@ -126,7 +126,7 @@ namespace SmartChord.Desktop
             }
             else
             {
-                _mediator.Send(new CreateWordDocumentFromDocx.Command
+                await _mediator.Send(new CreateWordDocumentFromDocx.Command
                 {
                     SourceFilename = Source,
                     NewKey = NewKey,

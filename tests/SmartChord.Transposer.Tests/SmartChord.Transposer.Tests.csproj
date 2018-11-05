@@ -71,9 +71,6 @@
     <EmbeddedResource Include="Resources\Output\tears-in-heaven-key-c.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\SmartChord.Parser\SmartChord.Parser.csproj">
       <Project>{1E398D28-52A3-4354-8471-656CC56B4709}</Project>
       <Name>SmartChord.Parser</Name>
@@ -85,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />

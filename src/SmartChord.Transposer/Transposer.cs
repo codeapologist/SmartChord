@@ -29,7 +29,7 @@ namespace SmartChord.Transpose
         public async Task<string> ResolveSongKey(Song song)
         {
             var analyzer = new SongAnalyzer();
-            var key = analyzer.DiscoverKeyOfSong(song);
+            var key = await Task.Run(() => analyzer.DiscoverKeyOfSong(song));
             if (key == Note.Unknown)
             {
                 throw new InvalidOperationException("Chordsheet does not contain any valid chords.");
