@@ -114,7 +114,7 @@ namespace SmartChord.Desktop
 
         public void OnGo()
         {
-            if (!string.IsNullOrEmpty(SourceUrl))
+            if (SourceUrlIsVisible)
             {
                 _mediator.Send(new CreateWordDocumentFromUrl.Command
                 {
@@ -123,8 +123,6 @@ namespace SmartChord.Desktop
                     OriginalKey = OriginalKey,
                     DestinationFilename = Destination
                 });
-
-
             }
             else
             {
