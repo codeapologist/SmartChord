@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,11 @@ namespace SmartChord.ChordSheets.Queries
                 var json = Regex.Replace(html.InnerText, @"^\s*window.UGAPP\.store\.page\s*=", string.Empty);
 
                 json = json.TrimEnd();
+
+                int index = json.LastIndexOf("\n", StringComparison.Ordinal);
+                if (index > 0)
+                    json = json.Substring(0, index);
+
                 json = json.TrimEnd(';');
 
                 var o = JObject.Parse(json);

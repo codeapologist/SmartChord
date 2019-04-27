@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MediatR;
 using Newtonsoft.Json.Linq;
+using SmartChord.Extractions;
 using SmartChord.Transpose;
 using Xceed.Words.NET;
 
@@ -30,31 +31,8 @@ namespace SmartChord.ChordSheets.Commands
         {
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                var web = new HtmlWeb();
-                var doc = web.Load(request.Url);
-
-
-                var html = doc.DocumentNode
-                    .SelectNodes("//script")
-                    .SingleOrDefault(x => x.InnerText.Contains("window.UGAPP.store.page"));
-
-                if (html == null)
-                {
-                    throw new InvalidOperationException($"Could not find content at the specified url: {request.Url}");
-                }
-
-                var json = Regex.Replace(html.InnerText, @"^\s*window.UGAPP\.store\.page\s*=", string.Empty);
-
-                json = json.TrimEnd();
-                json = json.TrimEnd(';');
-
-                var o = JObject.Parse(json);
-
-                string chordsheet = (string)o["data"]["tab_view"]["wiki_tab"]["content"];
-
-
-                chordsheet = chordsheet.Replace("[ch]", string.Empty);
-                chordsheet = chordsheet.Replace("[/ch]", string.Empty);
+                var extactor = new UltimateGuitarExtractor();
+                var chordsheet = await extactor.GetChordSheetText(request.Url);
 
                 if (!string.IsNullOrEmpty(request.NewKey))
                 {

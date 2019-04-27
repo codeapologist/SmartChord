@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MediatR;
 using Newtonsoft.Json.Linq;
+using SmartChord.Extractions;
 using SmartChord.Transpose;
 
 namespace SmartChord.ChordSheets.Queries
@@ -22,28 +23,8 @@ namespace SmartChord.ChordSheets.Queries
         {
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                var web = new HtmlWeb();
-                var doc = web.Load(request.Url);
-
-
-                var html = doc.DocumentNode
-                    .SelectNodes("//script")
-                    .Single(x => x.InnerText.Contains("window.UGAPP.store.page"));
-
-                var json = Regex.Replace(html.InnerText, @"^\s*window.UGAPP\.store\.page\s*=", string.Empty);
-
-                json = json.TrimEnd();
-                json = json.TrimEnd(';');
-
-                var o = JObject.Parse(json);
-
-                //This will be "Apple"
-                string chordsheet = (string) o["data"]["tab_view"]["wiki_tab"]["content"];
-
-
-                chordsheet = chordsheet.Replace("[ch]", string.Empty);
-                chordsheet = chordsheet.Replace("[/ch]", string.Empty);
-
+                var extactor = new UltimateGuitarExtractor();
+                var chordsheet = await extactor.GetChordSheetText(request.Url);
                 var transposer = new Transposer();
                 return await transposer.ChangeKey(chordsheet, request.NewKey);
             }
