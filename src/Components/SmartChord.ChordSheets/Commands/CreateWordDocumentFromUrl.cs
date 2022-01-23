@@ -29,9 +29,11 @@ namespace SmartChord.ChordSheets.Commands
 
         public class Handler : IRequestHandler<Command, Result>
         {
+            public ExtractorFactory ExtractorFactory { get; set; } = new ExtractorFactory();
+
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                var extactor = new UltimateGuitarExtractor();
+                var extactor = ExtractorFactory.GetExtraactor(request.Url);
                 var chordsheet = await extactor.GetChordSheetText(request.Url);
 
                 if (!string.IsNullOrEmpty(request.NewKey))

@@ -21,9 +21,12 @@ namespace SmartChord.ChordSheets.Queries
 
         public class Handler : IRequestHandler<Query, string>
         {
+            public ExtractorFactory ExtractorFactory { get; set; } = new ExtractorFactory();
+
+
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                var extactor = new UltimateGuitarExtractor();
+                var extactor = ExtractorFactory.GetExtraactor(request.Url);
                 var chordsheet = await extactor.GetChordSheetText(request.Url);
                 var transposer = new Transposer();
                 return await transposer.ChangeKey(chordsheet, request.NewKey);

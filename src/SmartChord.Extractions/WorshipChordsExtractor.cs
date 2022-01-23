@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SmartChord.Extractions
 {
-    public class UltimateGuitarExtractor: IExtractor
+    public class WorshipChordsExtractor: IExtractor
     {
 
         public async Task<string> GetChordSheetText(string url)
@@ -21,18 +21,12 @@ namespace SmartChord.Extractions
         private static string Execute(string url, HtmlWeb web)
         {
             var doc = web.Load(url);
-            var targetClass = "js-store";
 
-            var html = doc.DocumentNode
-                .SelectNodes("//div[@class='" + targetClass + "']")
-                .Single();
+            var html = doc.ParsedText;
 
-            var match = Regex.Match(html.OuterHtml, @"&quot;content&quot;:&quot;(.*?)&quot;,&quot;revision_id");
+            var match = Regex.Match(html, @"<pre.*>(.*?)<\/pre", RegexOptions.Singleline);
             var chordsheet = match.Groups[1].Value;
-            chordsheet = chordsheet.Replace("[ch]", string.Empty);
-            chordsheet = chordsheet.Replace("[/ch]", string.Empty);
-            chordsheet = chordsheet.Replace("[tab]", string.Empty);
-            chordsheet = chordsheet.Replace("[/tab]", string.Empty);
+            chordsheet = chordsheet.Replace("<br />", string.Empty);
             chordsheet = chordsheet.Replace(@"\r\n", Environment.NewLine);
 
             return chordsheet;

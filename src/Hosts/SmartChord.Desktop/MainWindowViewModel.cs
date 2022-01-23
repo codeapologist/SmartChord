@@ -134,7 +134,6 @@ namespace SmartChord.Desktop
                     DestinationFilename = Destination
                 });
             }
-            _environment.Exit(0);
         }
 
         public void OnFileInputSelected()
