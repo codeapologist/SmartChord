@@ -50,7 +50,7 @@ namespace SmartChord.ChordSheets.Commands
                     var p = document.InsertParagraph();
 
                     // Append some text.
-                    p.Append(chordsheet).Font("Courier New");
+                    p.Append(chordsheet).Font("Consolas");
 
                     // Save the document.
                     document.Save();

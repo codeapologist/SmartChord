@@ -33,6 +33,11 @@ namespace SmartChord.Extractions
             chordsheet = chordsheet.Replace("[/ch]", string.Empty);
             chordsheet = chordsheet.Replace("[tab]", string.Empty);
             chordsheet = chordsheet.Replace("[/tab]", string.Empty);
+            chordsheet = chordsheet.Replace("&#039;", "'");
+            chordsheet = chordsheet.Replace("&amp;", "&");
+            chordsheet = chordsheet.Replace("&lt;", "<");
+            chordsheet = chordsheet.Replace("&gt;", ">");
+            chordsheet = chordsheet.Replace("&quot;", "\"");
             chordsheet = chordsheet.Replace(@"\r\n", Environment.NewLine);
 
             return chordsheet;

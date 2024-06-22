@@ -152,7 +152,15 @@ namespace SmartChord.Desktop
         {
             if (Uri.IsWellFormedUriString(SourceUrl, UriKind.Absolute))
             {
-                var directory = Path.GetDirectoryName(Source);
+                
+                var directory = SourceUrlIsVisible && !string.IsNullOrEmpty(Destination) ? Destination : Source;
+                
+                if (Path.HasExtension(directory))
+                {
+                    directory = Path.GetDirectoryName(directory);
+
+                }
+
 
                 if (directory != null)
                 {
@@ -172,7 +180,7 @@ namespace SmartChord.Desktop
 
         public async Task OnLoaded()
         {
-            string key;
+            string key = "";
             if (!string.IsNullOrEmpty(SourceUrl))
             {
                 key = await _mediator.Send(new DetermineKeyFromLink.Query()
@@ -180,12 +188,19 @@ namespace SmartChord.Desktop
                     Url = SourceUrl
                 });
             }
-            else
+            else if(!string.IsNullOrEmpty(Source))
             {
                 key = await _mediator.Send(new DetermineKeyFromWordDocument.Query()
                 {
                     FilePath = Source
                 });
+            }
+            else
+            {
+                var documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                Destination = Path.Combine(documentFolder,"Chordsheets");
+                Directory.CreateDirectory(Destination);
+                
             }
 
             
