@@ -60,6 +60,7 @@
     <Compile Include="Commands\CreateWordDocumentFromDocx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\CreateWordDocumentFromUrl.cs" />
+    <Compile Include="Queries\IsValidChord.cs" />
     <Compile Include="Queries\DetermineKeyFromLink.cs" />
     <Compile Include="Queries\DetermineKeyFromWordDocument.cs" />
     <Compile Include="Queries\TransposeSheetDocx.cs" />

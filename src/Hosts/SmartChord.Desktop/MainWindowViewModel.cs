@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Caliburn.Micro;
 using CommandLine;
 using MediatR;
@@ -73,7 +75,6 @@ namespace SmartChord.Desktop
             }
         }
 
-        public string NewKey { get; set; }
         private string _originalKey;
         private bool _sourceIsVisible;
         private bool _sourceUrlIsVisible;
@@ -85,6 +86,18 @@ namespace SmartChord.Desktop
             {
                 _originalKey = value;
                 NotifyOfPropertyChange(() => OriginalKey);
+            }
+        }
+
+        private string _newKey;
+
+        public string NewKey
+        {
+            get => _newKey;
+            set
+            {
+                _newKey = value;
+                NotifyOfPropertyChange(() => NewKey);
             }
         }
 
@@ -148,6 +161,56 @@ namespace SmartChord.Desktop
             SourceUrlIsVisible = true;
         }
 
+
+        public static string RemoveKeyOfPattern(string input)
+        {
+            // Define the regular expression pattern to match "(Key of X)" where X can be any value
+            string pattern = @"\(Key of [^\)]+\)";
+
+            // Use Regex.Replace to remove the matched patterns
+            string result = Regex.Replace(input, pattern, string.Empty).Trim();
+
+            // Return the modified string
+            return result;
+        }
+
+        public static string KeyOfPostFix(string key)
+        {
+            return $"(Key of {key})";
+        }
+
+
+        public async Task OnFileSourceTextChanged()
+        {
+            if (!File.Exists(Source)) return;
+
+            var path =  Path.GetDirectoryName(Source);
+            var destination =  Path.GetFileNameWithoutExtension(Source);
+            var extension =  Path.GetExtension(Source);
+
+            destination = RemoveKeyOfPattern(destination);
+
+            if(extension.Equals(".docx", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var key = await _mediator.Send(new DetermineKeyFromWordDocument.Query()
+                {
+                    FilePath = Source
+                });
+
+                OriginalKey = key;
+
+                if (string.IsNullOrEmpty(NewKey))
+                {
+                    NewKey = key;
+                }
+
+                destination = $"{destination} {KeyOfPostFix(NewKey)}";
+
+                Destination = Path.Combine(path, $"{destination}{extension}");
+            }
+
+        }
+
         public async Task OnTextChanged()
         {
             if (Uri.IsWellFormedUriString(SourceUrl, UriKind.Absolute))
@@ -166,17 +229,48 @@ namespace SmartChord.Desktop
                 {
                     var uri = new Uri(SourceUrl);
                     var destinationName = uri.Segments[uri.Segments.Length - 1];
-                    Destination = Path.Combine(directory,  $"{destinationName}.docx");
+
                     var key = await _mediator.Send(new DetermineKeyFromLink.Query()
                     {
                         Url = SourceUrl
                     });
                     OriginalKey = key;
+
+                    if (string.IsNullOrEmpty(NewKey))
+                    {
+                        NewKey = key;
+                    }
+
+                    Destination = Path.Combine(directory,  $"{destinationName} {KeyOfPostFix(NewKey)}.docx");
+
+                    
+
                 }
             }
 
             
         }
+
+
+        public async Task OnNewKeyTextChanged()
+        {
+            var isValidChord = await _mediator.Send(new IsValidChord.Query()
+            {
+                Input = NewKey
+            });
+
+            var path = Path.GetDirectoryName(Destination);
+            var destination = Path.GetFileNameWithoutExtension(Destination);
+            var extension = Path.GetExtension(Destination);
+
+            destination = RemoveKeyOfPattern(destination);
+            destination = $"{destination} {(isValidChord ? KeyOfPostFix(NewKey) : string.Empty)}";
+
+            Destination = Path.Combine(path, $"{destination}{extension}");
+
+        }
+
+        
 
         public async Task OnLoaded()
         {

@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="0">Source</Label>
         <Grid x:Name="SourceIsVisible" Grid.Column="1" Grid.Row="0">
-        <TextBox x:Name="Source"  Margin="5, 0"/>
+            <TextBox x:Name="Source" cal:Message.Attach="[Event TextChanged] = [Action OnFileSourceTextChanged]"  Margin="5, 0"/>
             </Grid>
         <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Margin="5, 0">
             <RadioButton GroupName="InputType" x:Name="OnFileInputSelected" IsChecked="True" Margin="5, 0">File</RadioButton>
@@ -41,7 +41,7 @@
         <TextBox Grid.Column="1" Grid.Row="1" x:Name="Destination" Margin="5, 0"/>
         <Label Grid.Column="0" Grid.Row="2">New Key</Label>
 
-        <TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey" Margin="5, 0"/>
+        <TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey" cal:Message.Attach="[Event TextChanged] = [Action OnNewKeyTextChanged]" Margin="5, 0"/>
         <Label Grid.Column="0" Grid.Row="3">Original Key</Label>
 
         <Grid x:Name="SourceUrlIsVisible" Grid.Column="1" Grid.Row="0">

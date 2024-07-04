@@ -198,7 +198,7 @@ namespace SmartChord.Parser
         }
 
 
-        public RawChord ParseExact(string s)
+        public static RawChord ParseExact(string s)
         {
             var result = AbsoluteChordParser.TryParse(s);
 
