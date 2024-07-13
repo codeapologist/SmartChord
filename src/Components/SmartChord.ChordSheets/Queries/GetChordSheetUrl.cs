@@ -10,14 +10,11 @@ using SmartChord.Transpose;
 
 namespace SmartChord.ChordSheets.Queries
 {
-    public static class TransposeSheetUrl
+    public static class GetChordSheetUrl
     {
         public class Query : IRequest<string>
         {
             public string Url { get; set; }
-            public string NewKey { get; set; }
-            public string OriginalKey { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, string>
@@ -28,9 +25,8 @@ namespace SmartChord.ChordSheets.Queries
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
                 var extactor = ExtractorFactory.GetExtraactor(request.Url);
-                var chordsheet = await extactor.GetChordSheetText(request.Url);
-                var transposer = new Transposer();
-                return await transposer.ChangeKey(chordsheet, request.NewKey, request.OriginalKey);
+                return await extactor.GetChordSheetText(request.Url);
+
             }
         }
     }

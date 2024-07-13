@@ -125,6 +125,60 @@ namespace SmartChord.Desktop
             }
         }
 
+
+
+        private string _previewText;
+
+        public string PreviewText
+        {
+            get => _previewText;
+            set
+            {
+                _previewText = value;
+                NotifyOfPropertyChange(() => PreviewText);
+            }
+        }
+
+        public async void OnPreview()
+        {
+
+            string value = string.Empty;
+            if (SourceUrlIsVisible)
+            {
+                value = await _mediator.Send(new TransposeSheetUrl.Query
+                {
+                    Url = SourceUrl,
+                    NewKey = NewKey,
+                    OriginalKey = OriginalKey
+                });
+            }
+            else
+            {
+                value = await _mediator.Send(new TransposeSheetDocx.Query
+                {
+                    NewKey = NewKey,
+                    OriginalKey = OriginalKey,
+                });
+            }
+
+            PreviewText = value;
+        }
+
+        public async void OnPdf()
+        {
+
+            CreatePdfFromText.Result result = await _mediator.Send(new CreatePdfFromText.Command
+                {
+                    SongText = PreviewText,
+                    NewKey = NewKey,
+                    OriginalKey = OriginalKey,
+                    DestinationFilename = Destination
+                });
+
+
+            System.Diagnostics.Process.Start(result.OutputFilename);
+        }
+
         public async void OnGo()
         {
             if (SourceUrlIsVisible)

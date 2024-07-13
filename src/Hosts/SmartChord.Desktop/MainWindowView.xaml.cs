@@ -7,6 +7,8 @@
     {
         public MainWindowView()
         {
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             InitializeComponent();
         }
     }

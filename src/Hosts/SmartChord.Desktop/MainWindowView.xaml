@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="SmartChord" Height="225" Width="630" 
+        Title="SmartChord" Height="Auto" Width="630" 
         cal:Message.Attach="[Event Loaded] = [Action OnLoaded]"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -50,9 +51,20 @@
         <TextBox Grid.Column="1" Grid.Row="3" x:Name="OriginalKey" Margin="5, 0"/>
         <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5">
             <Button x:Name="OnBrowseSource" Margin="5, 0">Browse...</Button>
+            <Button  x:Name="OnPreview" Margin="5, 0">Preview</Button>
+            <Button  x:Name="OnPdf" Margin="5, 0">PDF</Button>
             <Button  x:Name="OnGo">Run</Button>
         </StackPanel>
+        <TextBox
+            Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"
+            FontFamily="Consolas"
+          x:Name="PreviewText"
+          TextWrapping="Wrap"
+          AcceptsReturn="True"
+          VerticalScrollBarVisibility="Auto">
+            This TextBox will allow the user to enter multiple lines of text.  When the RETURN key is pressed, 
+  or when typed text reaches the edge of the text box, a new line is automatically inserted.
+        </TextBox>
 
-        
     </Grid>
 </Window>

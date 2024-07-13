@@ -12,6 +12,7 @@ namespace SmartChord.ChordSheets.Queries
         {
             public string FilePath { get; set; }
             public string NewKey { get; set; }
+            public string OriginalKey { get; set; }
 
         }
 
@@ -23,7 +24,7 @@ namespace SmartChord.ChordSheets.Queries
 
                 var text = await extractor.GetChordSheetText(request.FilePath);
                 var transposer = new Transposer();
-                return await transposer.ChangeKey(text, request.NewKey);
+                return await transposer.ChangeKey(text, request.NewKey, request.OriginalKey);
             }
         }
     }
