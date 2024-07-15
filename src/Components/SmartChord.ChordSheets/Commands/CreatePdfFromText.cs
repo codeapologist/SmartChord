@@ -16,6 +16,7 @@ using SmartChord.Transpose;
 using Xceed.Words.NET;
 using System.Windows.Media.TextFormatting;
 using System.Windows;
+using System.Reflection;
 
 namespace SmartChord.ChordSheets.Commands
 {
@@ -246,6 +247,23 @@ namespace SmartChord.ChordSheets.Commands
             return regex.IsMatch(input);
         }
 
+        public static (int CutIndex, int NewCutIndex) GetCutIndex(string line, int cutIndex)
+        {
+            var newCutLength = 0;
+            while (true)
+            {
+                if (line[cutIndex - newCutLength] == ' ')
+                {
+                    cutIndex = cutIndex - newCutLength;
+                    break;
+                }
+
+                newCutLength++;
+            }
+
+            return (cutIndex, newCutLength);
+        }
+
         public static List<string> NormalizeLongLines(List<string> lines)
         {
             var index = 0;
@@ -265,105 +283,18 @@ namespace SmartChord.ChordSheets.Commands
                 {
                     if (lines[index][cutIndex + 1] != ' ')
                     {
-                        var newCutLength = 0;
-                        while (true)
-                        {
-                            if (line[cutIndex - newCutLength] == ' ')
-                            {
-                                cutIndex = cutIndex - newCutLength;
-                                break;
-                            }
+                        var indexes = GetCutIndex(line, cutIndex);
+                        cutIndex = indexes.CutIndex;
 
-                            newCutLength++;
-                        }
-
-                        var chordLine1 = line.Substring(0, cutIndex);
-                        var chordLine2 = line.Substring(cutIndex + 1);
-
-                        var nextLine = lines[index + 1];
-                        var nextCutIndex = 43;
-                        if (nextLine.Count() > 44)
-                        {
-                            if (nextLine[nextCutIndex + 1] != ' ')
-                            {
-                                var nextCutLength = 0;
-                                while (true)
-                                {
-                                    if (nextLine[nextCutIndex - nextCutLength] == ' ')
-                                    {
-                                        nextCutIndex = nextCutIndex - nextCutLength;
-                                        break;
-                                    }
-
-                                    nextCutLength++;
-                                }
-
-                                var nextLine1 = nextLine.Substring(0, nextCutIndex);
-                                var nextLine2 = nextLine.Substring(nextCutIndex + 1);
-
-                                var chordPadding = string.Concat(Enumerable.Repeat(" ", nextCutLength));
-
-                                result.Add(chordLine1);
-                                result.Add(nextLine1);
-                                result.Add(chordPadding + chordLine2);
-                                result.Add(nextLine2);
-
-                                index += 2;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            result.Add(chordLine1);
-                            result.Add(nextLine);
-                            result.Add(chordLine2);
-                            index += 2;
-                            continue;
-                        }
+                        HandleLyricLine(line, lines[index + 1], result, cutIndex);
+                        index += 2;
+                        continue;
                     }
                     else
                     {
-                        var chordLine1 = line.Substring(0, cutIndex);
-                        var chordLine2 = line.Substring(cutIndex + 1);
-
-                        var nextLine = lines[index + 1];
-                        var nextCutIndex = 43;
-                        if (nextLine.Count() > 44)
-                        {
-                            if (nextLine[nextCutIndex + 1] != ' ')
-                            {
-                                var nextCutLength = 0;
-                                while (true)
-                                {
-                                    if (nextLine[nextCutIndex - nextCutLength] == ' ')
-                                    {
-                                        nextCutIndex = nextCutIndex - nextCutLength;
-                                        break;
-                                    }
-
-                                    nextCutLength++;
-                                }
-
-                                var nextLine1 = nextLine.Substring(0, nextCutIndex);
-                                var nextLine2 = nextLine.Substring(nextCutIndex + 1);
-                                var chordPadding = string.Concat(Enumerable.Repeat(" ", nextCutLength));
-                                result.Add(chordLine1);
-                                result.Add(nextLine1);
-                                result.Add(chordPadding + chordLine2);
-                                result.Add(nextLine2);
-
-                                index += 2;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            result.Add(chordLine1);
-                            result.Add(nextLine);
-                            result.Add(chordLine2);
-                            index += 2;
-                            continue;
-                        }
+                        HandleLyricLine(line, lines[index + 1], result, cutIndex);
+                        index += 2;
+                        continue;
                     }
                 }
 
@@ -374,6 +305,39 @@ namespace SmartChord.ChordSheets.Commands
 
             return result;
 
+        }
+
+        public static void HandleLyricLine(string line, string nextLine, List<string> result,  int cutIndex)
+        {
+            var chordLine1 = line.Substring(0, cutIndex);
+            var chordLine2 = line.Substring(cutIndex + 1);
+
+            var nextCutIndex = 43;
+            if (nextLine.Count() > 44)
+            {
+                if (nextLine[nextCutIndex + 1] != ' ')
+                {
+                    var newIndexes = GetCutIndex(nextLine, nextCutIndex);
+                    nextCutIndex = newIndexes.CutIndex;
+
+                    var nextLine1 = nextLine.Substring(0, nextCutIndex);
+                    var nextLine2 = nextLine.Substring(nextCutIndex + 1);
+                    var chordPadding = string.Concat(Enumerable.Repeat(" ", newIndexes.NewCutIndex));
+                    result.Add(chordLine1);
+                    result.Add(nextLine1);
+                    result.Add(chordPadding + chordLine2);
+                    result.Add(nextLine2);
+
+                    return;
+                }
+            }
+            else
+            {
+                result.Add(chordLine1);
+                result.Add(nextLine);
+                result.Add(chordLine2);
+                return;
+            }
         }
     }
 }
