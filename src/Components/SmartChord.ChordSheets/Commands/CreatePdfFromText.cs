@@ -22,6 +22,8 @@ namespace SmartChord.ChordSheets.Commands
 {
     public static class CreatePdfFromText
     {
+        private const int MaxLengthOfSongLine = 44;
+
         public class Command : IRequest<Result>
         {
             public string SongText { get; set; }
@@ -36,8 +38,13 @@ namespace SmartChord.ChordSheets.Commands
             public string OutputFilename { get; set; }
         }
 
+    
+
         public class Handler : IRequestHandler<Command, Result>
         {
+            private const int LineCountThresholdForFinalPage = 28;
+            private const int MaxLinesForColumn = 59;
+
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 string chordsheet = string.Empty;
@@ -65,41 +72,57 @@ namespace SmartChord.ChordSheets.Commands
                 {
                     var line = reader.ReadLine();
                     if (line == null) break;
-
+                    if(string.IsNullOrEmpty(line))
+                    {
+                        line = string.Empty;
+                    }
                     lines.Add(line);
                 }
 
                 lines = NormalizeLongLines(lines);
 
+                var additionalLines = 0;
 
-                var totalIndex = 0;
+                foreach(var line in lines)
+                {
+                    if (line.Count() >= MaxLengthOfSongLine)
+                    {
+                        additionalLines++;
+                    }
+                }
+
+                var totalLineCount = lines.Count() + additionalLines;
+
+
+                var currentTotalCount = 1;
                 var index = 0;
+                var isFinalPage = false;
 
-                Action IncreaseIndex = () => { totalIndex++; index++; };
+                Action IncreaseIndex = () => { currentTotalCount++; index++; };
 
                 foreach (var line in lines)
                 {
                     if(IsSectionTitle(line.Trim()))
                     {
-                        if(index > 28 && (lines.Count - totalIndex) < 57)
+                        if (index > LineCountThresholdForFinalPage && RemainLinesFit(totalLineCount, currentTotalCount) && !isFinalPage && currentSongLines == leftSongLines)
                         {
-                            var addLineCount = 58 - index;
+                            var addLineCount = (MaxLinesForColumn - index);
                             for (var i = 0; i < addLineCount; i++)
                             {
-                                currentSongLines.Enqueue(new PdfSongLine { Line = string.Empty });
-                                IncreaseIndex();
+                                AddSongLine(new PdfSongLine { Line = string.Empty }, currentSongLines, IncreaseIndex);
                             }
+
+                            isFinalPage = true;
 
                         }
                     }
 
-                    else if(index == 57 && (PdfHelper.IsLineValidGuitarChords(line) || IsSectionTitle(line)))
+                    if (index == (MaxLinesForColumn - 1) && (PdfHelper.IsLineValidGuitarChords(line) || IsSectionTitle(line)))
                     {
-                        currentSongLines.Enqueue(new PdfSongLine { Line = string.Empty});
-                        IncreaseIndex();
+                        AddSongLine(new PdfSongLine { Line = string.Empty }, currentSongLines, IncreaseIndex);
                     }
 
-                    if (index == 58)
+                    if (index >= MaxLinesForColumn )
                     {
                         index = 0;
                         var tmp = currentSongLines;
@@ -112,9 +135,8 @@ namespace SmartChord.ChordSheets.Commands
                     songLine.IsChordLine = PdfHelper.IsLineValidGuitarChords(line);
                     songLine.Line = line;
 
-                    currentSongLines.Enqueue(songLine);
 
-                    IncreaseIndex();
+                    AddSongLine(songLine, currentSongLines, IncreaseIndex);
 
                 }
 
@@ -181,9 +203,26 @@ namespace SmartChord.ChordSheets.Commands
                 return new Result {OutputFilename = finalDestination };
             }
 
+            private static bool RemainLinesFit(int totalLineCount, int totalCount)
+            {
+                return (totalLineCount - totalCount) < MaxLinesForColumn ;
+            }
         }
 
-        public static string FormatString(string input)
+        public static void AddSongLine(PdfSongLine line, Queue<PdfSongLine> currentSongLines, Action increaseIndex)
+        {
+            currentSongLines.Enqueue(line);
+
+            if(line.Line.Length >= MaxLengthOfSongLine)
+            {
+                increaseIndex();
+            }
+
+            increaseIndex();
+
+        }
+
+    public static string FormatString(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return input;
@@ -277,11 +316,11 @@ namespace SmartChord.ChordSheets.Commands
                     index++;
                     continue;
                 }
-                var cutIndex = 43;
+                var cutIndex = MaxLengthOfSongLine - 1;
 
-                if (lines[index].Count() > 44)
+                if (lines[index].Count() >= MaxLengthOfSongLine)
                 {
-                    if (lines[index][cutIndex + 1] != ' ')
+                    if (lines[index][cutIndex] != ' ')
                     {
                         var indexes = GetCutIndex(line, cutIndex);
                         cutIndex = indexes.CutIndex;
@@ -312,10 +351,10 @@ namespace SmartChord.ChordSheets.Commands
             var chordLine1 = line.Substring(0, cutIndex);
             var chordLine2 = line.Substring(cutIndex + 1);
 
-            var nextCutIndex = 43;
-            if (nextLine.Count() > 44)
+            var nextCutIndex = MaxLengthOfSongLine - 1;
+            if (nextLine.Count() >= MaxLengthOfSongLine)
             {
-                if (nextLine[nextCutIndex + 1] != ' ')
+                if (nextLine[nextCutIndex] != ' ')
                 {
                     var newIndexes = GetCutIndex(nextLine, nextCutIndex);
                     nextCutIndex = newIndexes.CutIndex;
