@@ -8,6 +8,7 @@ namespace SmartChord.Transpose
 {
     public class SongAnalyzer
     {
+        public static readonly List<string> AmbiguousChords = new List<string>() { "A", "Am", "Ab", "Go", "Do" };
 
         public Note DiscoverKeyOfSong(Song song)
         {
@@ -43,13 +44,13 @@ namespace SmartChord.Transpose
                 bassNote.IsBassNote = true;
             }
         }
-        private readonly List<string> _ambiguousChords = new List<string>() { "A", "Am", "Ab", "Go", "Do" };
+
 
         private void ResolveAmbiguousElements(Song song)
         {
             var results = from line in song.Lines
                           from element in line.Elements.OfType<ChordElement>()
-                          where _ambiguousChords.Contains(element.Chord.ToString())
+                          where AmbiguousChords.Contains(element.Chord.ToString())
                           select new { element, line };
 
             var resultsToResolve = from result in results

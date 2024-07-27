@@ -9,5 +9,12 @@ namespace SmartChord.Parser.Models
         public SongLine NextLine { get; set; }
         public List<BaseElement> Elements { get; set; } = new List<BaseElement>();
 
+        public void Overwrite(SongLine line)
+        {
+            PreviousLine = line.PreviousLine;
+            NextLine = line.NextLine;
+            Elements = line.Elements;
+        }
+
     }
 }

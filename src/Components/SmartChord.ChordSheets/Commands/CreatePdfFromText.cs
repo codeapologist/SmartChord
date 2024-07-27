@@ -309,7 +309,8 @@ namespace SmartChord.ChordSheets.Commands
             var result = new List<string>();
             while (index < lines.Count)
             {
-                var line = lines[index].TrimEnd();
+                lines[index] = lines[index].TrimEnd();
+                var line = lines[index];
                 if (!PdfHelper.IsLineValidGuitarChords(line))
                 {
                     result.Add(line);
@@ -367,6 +368,18 @@ namespace SmartChord.ChordSheets.Commands
                     result.Add(chordPadding + chordLine2);
                     result.Add(nextLine2);
 
+                    return;
+                }
+                else
+                {
+                    var newIndexes = GetCutIndex(nextLine, nextCutIndex);
+                    var nextLine1 = nextLine.Substring(0, nextCutIndex);
+                    var nextLine2 = nextLine.Substring(nextCutIndex + 1);
+                    var chordPadding = string.Concat(Enumerable.Repeat(" ", newIndexes.NewCutIndex));
+                    result.Add(chordLine1);
+                    result.Add(nextLine1);
+                    result.Add(chordPadding + chordLine2);
+                    result.Add(nextLine2);
                     return;
                 }
             }

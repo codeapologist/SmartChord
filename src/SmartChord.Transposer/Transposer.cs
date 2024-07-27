@@ -42,10 +42,41 @@ namespace SmartChord.Transpose
         {
             var song = _parser.ParseSong(chordsheet);
 
+            foreach(var line in song.Lines)
+            {
+                if(line.Elements.Any(x => x is ChordElement) && line.Elements.Any(y => y is WordElement))
+                {
+                    var isLyricLine =  line.Elements
+                        .Where(x => x is ChordElement)
+                        .All(x => SongAnalyzer.AmbiguousChords.Contains(x.GetText()));
+
+                    var newSongLine = new SongLine();
+
+                    for (var i = 0; i < line.Elements.Count; i++)
+                    {
+                        if (line.Elements[i] is ChordElement)
+                        {
+                            var wordElement = new WordElement(line.Elements[i].GetText());
+                            newSongLine.Elements.Add(wordElement);
+                        }
+                        else
+                        {
+                            newSongLine.Elements.Add(line.Elements[i]);
+                        }
+
+                    }
+
+                    line.Overwrite(newSongLine);
+                }
+            }
+            
+            
             if (string.IsNullOrWhiteSpace(originalKey))
             {
                 originalKey = await ResolveSongKey(song);
             }
+
+            
 
             return ChangeKey(song, destinationKey, originalKey);
 
