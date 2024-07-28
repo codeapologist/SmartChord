@@ -67,9 +67,13 @@
     <Compile Include="Pdf\PdfSongLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\CreateWordDocumentFromUrl.cs" />
+    <Compile Include="Queries\GetTextFromTxt.cs" />
     <Compile Include="Queries\IsValidChord.cs" />
     <Compile Include="Queries\DetermineKeyFromLink.cs" />
     <Compile Include="Queries\DetermineKeyFromWordDocument.cs" />
+    <Compile Include="Queries\GetTextFromDocx.cs" />
+    <Compile Include="Queries\TransposeUpHalfStep.cs" />
+    <Compile Include="Queries\TransposeDownHalfStep.cs" />
     <Compile Include="Queries\TransposeSheetDocx.cs" />
     <Compile Include="Queries\GetChordSheetUrl.cs" />
     <Compile Include="Queries\TransposeSheetUrl.cs" />

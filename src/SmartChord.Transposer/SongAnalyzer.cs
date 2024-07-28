@@ -34,9 +34,9 @@ namespace SmartChord.Transpose
         private void MarkBassNotes(Song song)
         {
             var bassNotes = (from line in song.Lines
-                             let wordElements = line.Elements.OfType<WordElement>().Where(x => x.IsSlash)
+                             let slashElements = line.Elements.OfType<NonAlphaElement>().Where(x => x.IsSlash)
                              from element in line.Elements.OfType<ChordElement>()
-                             where wordElements.Contains(element.PreviousElement)
+                             where slashElements.Contains(element.PreviousElement)
                              select element);
 
             foreach (var bassNote in bassNotes)
@@ -46,34 +46,8 @@ namespace SmartChord.Transpose
         }
 
 
-        private void ResolveAmbiguousElements(Song song)
-        {
-            var results = from line in song.Lines
-                          from element in line.Elements.OfType<ChordElement>()
-                          where AmbiguousChords.Contains(element.Chord.ToString())
-                          select new { element, line };
-
-            var resultsToResolve = from result in results
-                                   let nextWordElement = result.element.NextElement?.NextElement as WordElement
-                                   let previousWordElement = result.element.PreviousElement?.PreviousElement as WordElement
-                                   where nextWordElement != null && nextWordElement.IsFirstCharacterAlphaNumeric ||
-                                         previousWordElement != null && previousWordElement.IsLastCharacterAlphaNumeric
-                                   select result;
-
-            foreach (var result in resultsToResolve)
-            {
-                var newElementList = (from element in result.line.Elements
-                                      select element == result.element ? new WordElement(element.GetText()) : element)
-                                     .ToList();
-
-                result.line.Elements = new List<BaseElement>(newElementList);
-            }
-
-        }
-
         private List<SongStat> GetStatistics(Song song)
         {
-            ResolveAmbiguousElements(song);
             MarkBassNotes(song);
 
             return (from line in song.Lines

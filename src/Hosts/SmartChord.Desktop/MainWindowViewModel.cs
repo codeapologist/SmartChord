@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using CommandLine;
@@ -25,7 +26,7 @@ namespace SmartChord.Desktop
             _mediator = mediator;
             _environment = environment;
             _dialogService = dialogService;
-            SourceIsVisible = true;
+            //SourceIsVisible = true;
             var args = _environment.GetCommandLineArgs();
 
             CommandLine.Parser.Default.ParseArguments<Options>(args)
@@ -48,7 +49,7 @@ namespace SmartChord.Desktop
             return 0;
         }
 
-        
+
 
         private string _source;
 
@@ -104,26 +105,26 @@ namespace SmartChord.Desktop
         public string SourceUrl { get; set; }
 
 
-        public bool SourceIsVisible
-        {
-            get { return _sourceIsVisible; }
-            set
-            {
-                _sourceIsVisible = value;
-                NotifyOfPropertyChange(() => SourceIsVisible);
-            }
-        }
+        //public bool SourceIsVisible
+        //{
+        //    get { return _sourceIsVisible; }
+        //    set
+        //    {
+        //        _sourceIsVisible = value;
+        //        NotifyOfPropertyChange(() => SourceIsVisible);
+        //    }
+        //}
 
 
-        public bool SourceUrlIsVisible
-        {
-            get { return _sourceUrlIsVisible; }
-            set
-            {
-                _sourceUrlIsVisible = value;
-                NotifyOfPropertyChange(() => SourceUrlIsVisible);
-            }
-        }
+        //public bool SourceUrlIsVisible
+        //{
+        //    get { return _sourceUrlIsVisible; }
+        //    set
+        //    {
+        //        _sourceUrlIsVisible = value;
+        //        NotifyOfPropertyChange(() => SourceUrlIsVisible);
+        //    }
+        //}
 
 
 
@@ -139,80 +140,80 @@ namespace SmartChord.Desktop
             }
         }
 
-        public async void OnPreview()
-        {
+        //public async void OnPreview()
+        //{
 
-            string value = string.Empty;
-            if (SourceUrlIsVisible)
-            {
-                value = await _mediator.Send(new TransposeSheetUrl.Query
-                {
-                    Url = SourceUrl,
-                    NewKey = NewKey,
-                    OriginalKey = OriginalKey
-                });
-            }
-            else
-            {
-                value = await _mediator.Send(new TransposeSheetDocx.Query
-                {
-                    NewKey = NewKey,
-                    OriginalKey = OriginalKey,
-                });
-            }
+        //    string value = string.Empty;
+        //    if (SourceUrlIsVisible)
+        //    {
+        //        value = await _mediator.Send(new TransposeSheetUrl.Query
+        //        {
+        //            Url = SourceUrl,
+        //            NewKey = NewKey,
+        //            OriginalKey = OriginalKey
+        //        });
+        //    }
+        //    else
+        //    {
+        //        value = await _mediator.Send(new TransposeSheetDocx.Query
+        //        {
+        //            NewKey = NewKey,
+        //            OriginalKey = OriginalKey,
+        //        });
+        //    }
 
-            PreviewText = value;
-        }
+        //    PreviewText = value;
+        //}
 
         public async void OnPdf()
         {
 
             CreatePdfFromText.Result result = await _mediator.Send(new CreatePdfFromText.Command
-                {
-                    SongText = PreviewText,
-                    NewKey = NewKey,
-                    OriginalKey = OriginalKey,
-                    DestinationFilename = Destination
-                });
+            {
+                SongText = PreviewText,
+                NewKey = NewKey,
+                OriginalKey = OriginalKey,
+                DestinationFilename = Destination
+            });
 
 
             System.Diagnostics.Process.Start(result.OutputFilename);
         }
 
-        public async void OnGo()
-        {
-            if (SourceUrlIsVisible)
-            {
-                await _mediator.Send(new CreateWordDocumentFromUrl.Command
-                {
-                    Url = SourceUrl,
-                    NewKey = NewKey,
-                    OriginalKey = OriginalKey,
-                    DestinationFilename = Destination
-                });
-            }
-            else
-            {
-                await _mediator.Send(new CreateWordDocumentFromDocx.Command
-                {
-                    SourceFilename = Source,
-                    NewKey = NewKey,
-                    OriginalKey = OriginalKey,
-                    DestinationFilename = Destination
-                });
-            }
-        }
+        //public async void OnGo()
+        //{
+        //    if (SourceUrlIsVisible)
+        //    {
+        //        await _mediator.Send(new CreateWordDocumentFromUrl.Command
+        //        {
+        //            Url = SourceUrl,
+        //            NewKey = NewKey,
+        //            OriginalKey = OriginalKey,
+        //            DestinationFilename = Destination
+        //        });
+        //    }
+        //    else
+        //    {
+        //        await _mediator.Send(new CreateWordDocumentFromDocx.Command
+        //        {
+        //            SourceFilename = Source,
+        //            NewKey = NewKey,
+        //            OriginalKey = OriginalKey,
+        //            DestinationFilename = Destination
+        //        });
+        //    }
+        //}
 
         public void OnFileInputSelected()
         {
-            SourceIsVisible = true;
-            SourceUrlIsVisible = false;
+            //SourceIsVisible = true;
+            //SourceUrlIsVisible = false;
         }
 
         public void OnUrlSelected()
         {
-            SourceIsVisible = false;
-            SourceUrlIsVisible = true;
+            //SourceIsVisible = false;
+            //SourceUrlIsVisible = true;
         }
 
 
@@ -238,13 +239,13 @@ namespace SmartChord.Desktop
         {
             if (!File.Exists(Source)) return;
 
-            var path =  Path.GetDirectoryName(Source);
-            var destination =  Path.GetFileNameWithoutExtension(Source);
-            var extension =  Path.GetExtension(Source);
+            var path = Path.GetDirectoryName(Source);
+            var destination = Path.GetFileNameWithoutExtension(Source);
+            var extension = Path.GetExtension(Source);
 
             destination = RemoveKeyOfPattern(destination);
 
-            if(extension.Equals(".docx", StringComparison.CurrentCultureIgnoreCase))
+            if (extension.Equals(".docx", StringComparison.CurrentCultureIgnoreCase))
             {
                 var key = await _mediator.Send(new DetermineKeyFromWordDocument.Query()
                 {
@@ -269,62 +270,42 @@ namespace SmartChord.Desktop
         {
             if (Uri.IsWellFormedUriString(SourceUrl, UriKind.Absolute))
             {
-                
-                var directory = SourceUrlIsVisible && !string.IsNullOrEmpty(Destination) ? Destination : Source;
-                
-                if (Path.HasExtension(directory))
-                {
-                    directory = Path.GetDirectoryName(directory);
 
-                }
+                //var directory = SourceUrlIsVisible && !string.IsNullOrEmpty(Destination) ? Destination : Source;
+
+                //if (Path.HasExtension(directory))
+                //{
+                //    directory = Path.GetDirectoryName(directory);
+
+                //}
 
 
-                if (directory != null)
-                {
+                //if (directory != null)
+                //{
                     var uri = new Uri(SourceUrl);
-                    var destinationName = uri.Segments[uri.Segments.Length - 1];
 
-                    var key = await _mediator.Send(new DetermineKeyFromLink.Query()
+                    PreviewText = await _mediator.Send(new GetChordSheetUrl.Query()
                     {
                         Url = SourceUrl
                     });
-                    OriginalKey = key;
 
-                    if (string.IsNullOrEmpty(NewKey))
-                    {
-                        NewKey = key;
-                    }
 
-                    Destination = Path.Combine(directory,  $"{destinationName} {KeyOfPostFix(NewKey)}.docx");
 
-                    
 
-                }
+
+                //}
             }
 
-            
+
         }
 
 
         public async Task OnNewKeyTextChanged()
         {
-            var isValidChord = await _mediator.Send(new IsValidChord.Query()
-            {
-                Input = NewKey
-            });
-
-            var path = Path.GetDirectoryName(Destination);
-            var destination = Path.GetFileNameWithoutExtension(Destination);
-            var extension = Path.GetExtension(Destination);
-
-            destination = RemoveKeyOfPattern(destination);
-            destination = $"{destination} {(isValidChord ? KeyOfPostFix(NewKey) : string.Empty)}";
-
-            Destination = Path.Combine(path, $"{destination}{extension}");
 
         }
 
-        
+
 
         public async Task OnLoaded()
         {
@@ -336,7 +317,7 @@ namespace SmartChord.Desktop
                     Url = SourceUrl
                 });
             }
-            else if(!string.IsNullOrEmpty(Source))
+            else if (!string.IsNullOrEmpty(Source))
             {
                 key = await _mediator.Send(new DetermineKeyFromWordDocument.Query()
                 {
@@ -345,22 +326,81 @@ namespace SmartChord.Desktop
             }
             else
             {
-                var documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                Destination = Path.Combine(documentFolder,"Chordsheets");
+                var documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                Destination = Path.Combine(documentFolder, "SmartChord");
                 Directory.CreateDirectory(Destination);
-                
+
             }
 
-            
+
             OriginalKey = key;
         }
 
-        public void OnBrowseSource()
+        public async Task OnBrowseSource()
         {
-            var directory = Path.GetDirectoryName(Source);
-            Source = _dialogService.OpenFileDialog(directory);
+            Source = _dialogService.OpenFileDialog(Destination);
+
+            if (string.IsNullOrWhiteSpace(Source)) { return; }
+
+            var extension = Path.GetExtension(Source);
+
+            if (string.Equals(extension, ".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                PreviewText = await _mediator.Send(new GetTextFromDocx.Query()
+                {
+                    FilePath = Source
+                });
+            }
+            else
+            {
+                PreviewText = await _mediator.Send(new GetTextFromTxt.Query()
+                {
+                    FilePath = Source
+                });
+            }
+
+
         }
+
+        public async Task OnSave()
+        {
+            PreviewText = PreviewText.Trim();
+
+            var title = PreviewText.Split('\n')[0].Trim();
+            var destination = Path.Combine(Destination, $"{title}.txt");
+            File.WriteAllText(destination, PreviewText);
+
+            MessageBox.Show($"Save successful - {destination}");
+        }
+
+        public async Task TransposeDown()
+        {
+            if(string.IsNullOrWhiteSpace(PreviewText))
+            {
+                return;
+            }
+
+            PreviewText = await _mediator.Send(new TransposeDownHalfStep.Query()
+            {
+                SongText = PreviewText
+            });
+        }
+
+        public async Task TransposeUp()
+        {
+            if (string.IsNullOrWhiteSpace(PreviewText))
+            {
+                return;
+            }
+
+            PreviewText = await _mediator.Send(new TransposeUpHalfStep.Query()
+            {
+                SongText = PreviewText
+            });
+        }
+
     }
+        
 
     public class Options
     {

@@ -29,42 +29,53 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="0">Source</Label>
+        <Label Grid.Column="0" Grid.Row="0">Website</Label>
         <Grid x:Name="SourceIsVisible" Grid.Column="1" Grid.Row="0">
-            <TextBox x:Name="Source" cal:Message.Attach="[Event TextChanged] = [Action OnFileSourceTextChanged]"  Margin="5, 0"/>
+            <!--<TextBox x:Name="Source" cal:Message.Attach="[Event TextChanged] = [Action OnFileSourceTextChanged]"  Margin="5, 0"/>-->
             </Grid>
         <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Margin="5, 0">
-            <RadioButton GroupName="InputType" x:Name="OnFileInputSelected" IsChecked="True" Margin="5, 0">File</RadioButton>
-            <RadioButton GroupName="InputType" x:Name="OnUrlSelected" >Url</RadioButton>
+            <RadioButton GroupName="InputType" x:Name="OnFileInputSelected" IsChecked="False" Margin="5, 0" Visibility="Hidden">File</RadioButton>
+            <RadioButton GroupName="InputType" x:Name="OnUrlSelected" IsChecked="True" Visibility="Hidden">Url</RadioButton>
         </StackPanel>
-        <Label Grid.Column="0" Grid.Row="1">Destination</Label>
 
-        <TextBox Grid.Column="1" Grid.Row="1" x:Name="Destination" Margin="5, 0"/>
-        <Label Grid.Column="0" Grid.Row="2">New Key</Label>
+        <TextBox Grid.Column="1" Grid.Row="1" x:Name="Destination" Margin="5, 0" Visibility="Hidden"/>
 
-        <TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey" cal:Message.Attach="[Event TextChanged] = [Action OnNewKeyTextChanged]" Margin="5, 0"/>
-        <Label Grid.Column="0" Grid.Row="3">Original Key</Label>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal">
+            <Button x:Name="TransposeDown" Margin="0,0,5,0" Width="150" Background="DarkBlue">Down (-1)</Button>
+            <Button x:Name="TransposeUp" Width="150" Background="DarkBlue">Up (+1)</Button>
 
+        </StackPanel>
+        
         <Grid x:Name="SourceUrlIsVisible" Grid.Column="1" Grid.Row="0">
             <TextBox  x:Name="SourceUrl" cal:Message.Attach="[Event TextChanged] = [Action OnTextChanged]" Margin="5, 0"/>
         </Grid>
-        <TextBox Grid.Column="1" Grid.Row="3" x:Name="OriginalKey" Margin="5, 0"/>
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5">
-            <Button x:Name="OnBrowseSource" Margin="5, 0">Browse...</Button>
-            <Button  x:Name="OnPreview" Margin="5, 0">Preview</Button>
-            <Button  x:Name="OnPdf" Margin="5, 0">PDF</Button>
-            <Button  x:Name="OnGo">Run</Button>
+        
+        <!--<TextBox Grid.Column="1" Grid.Row="2" x:Name="NewKey" cal:Message.Attach="[Event TextChanged] = [Action OnNewKeyTextChanged]" Margin="5, 0"/>
+        <Label Grid.Column="0" Grid.Row="3">Original Key</Label>
+
+
+        <TextBox Grid.Column="1" Grid.Row="3" x:Name="OriginalKey" Margin="5, 0"/>-->
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5">
+            <Button x:Name="OnBrowseSource" Margin="5, 0">Open</Button>
+            <Button x:Name="OnSave" Margin="5, 0">Save</Button>
+            <!--<Button  x:Name="OnPreview" Margin="5, 0">Preview</Button>-->
+            <Button  x:Name="OnPdf" Margin="5, 0">Pretty PDF</Button>
+            <!--<Button  x:Name="OnGo">Run</Button>-->
         </StackPanel>
-        <TextBox
+
+            <TextBox
             Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6"
             FontFamily="Consolas"
           x:Name="PreviewText"
           TextWrapping="Wrap"
           AcceptsReturn="True"
-          VerticalScrollBarVisibility="Auto">
-            This TextBox will allow the user to enter multiple lines of text.  When the RETURN key is pressed, 
+          VerticalScrollBarVisibility="Auto"
+            BorderThickness="3">
+                This TextBox will allow the user to enter multiple lines of text.  When the RETURN key is pressed, 
   or when typed text reaches the edge of the text box, a new line is automatically inserted.
-        </TextBox>
+            </TextBox>
+
+
 
     </Grid>
 </Window>

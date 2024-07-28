@@ -49,6 +49,7 @@
     <Compile Include="Models\Chord.cs" />
     <Compile Include="Models\Elements\BaseElement.cs" />
     <Compile Include="Models\Elements\ChordElement.cs" />
+    <Compile Include="Models\Elements\NonAlphaElement.cs" />
     <Compile Include="Models\Elements\WhitespaceElement.cs" />
     <Compile Include="Models\Elements\WordElement.cs" />
     <Compile Include="Models\Note.cs" />

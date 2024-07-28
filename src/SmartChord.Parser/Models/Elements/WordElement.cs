@@ -6,27 +6,8 @@ namespace SmartChord.Parser.Models.Elements
     {
         private readonly string _text;
 
-        public bool IsSlash { get; }
-        public bool IsFirstCharacterAlphaNumeric { get; }
-        public bool IsLastCharacterAlphaNumeric { get; }
-
         public WordElement(string text)
         {
-            if (text == "/")
-            {
-                IsSlash = true;
-            }
-
-            if (char.IsLetterOrDigit(text.First()))
-            {
-                IsFirstCharacterAlphaNumeric = true;
-            }
-
-            if (char.IsLetterOrDigit(text.Last()))
-            {
-                IsLastCharacterAlphaNumeric = true;
-            }
-
             _text = text;
         }
 

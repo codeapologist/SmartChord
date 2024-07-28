@@ -11,6 +11,8 @@ namespace SmartChord.Parser
     public class SongParser
     {
         private static readonly Parser<RawChord> AbsoluteChordParser;
+        public static readonly List<string> AmbiguousChords = new List<string>() { "A", "Am", "Ab", "Go", "Do" };
+
 
         static SongParser()
         {
@@ -146,12 +148,40 @@ namespace SmartChord.Parser
                 song.Lines.Add(songLine);
             }
 
+            foreach (var line in song.Lines)
+            {
+                if (line.Elements.Any(x => x is ChordElement) && line.Elements.Any(y => y is WordElement))
+                {
+                    var isLyricLine = line.Elements
+                        .Where(x => x is ChordElement)
+                        .All(x => AmbiguousChords.Contains(x.GetText()));
+
+                    var newSongLine = new SongLine();
+
+                    for (var i = 0; i < line.Elements.Count; i++)
+                    {
+                        if (line.Elements[i] is ChordElement)
+                        {
+                            var wordElement = new WordElement(line.Elements[i].GetText());
+                            newSongLine.Elements.Add(wordElement);
+                        }
+                        else
+                        {
+                            newSongLine.Elements.Add(line.Elements[i]);
+                        }
+
+                    }
+
+                    line.Overwrite(newSongLine);
+                }
+            }
+
             return song;
         }
 
         private IEnumerable<BaseElement> ProcessLine(string line)
         {
-            var songTokens = Regex.Matches(line, @"([\s/]*)([^\s/]*)");
+            var songTokens = Regex.Matches(line, @"([^A-Za-z0-9#/]*)([A-Za-z0-9#/]*)");
             BaseElement element = null;
 
             foreach (Match token in songTokens)
@@ -172,10 +202,15 @@ namespace SmartChord.Parser
                                 var chord = new Chord(rawChord);
                                 element = new ChordElement(chord);
                             }
-                            else
+                            else if (g.Value.All(x => char.IsLetterOrDigit(x)))
                             {
                                 element = new WordElement(g.Value);
                             }
+                            else
+                            {
+                                element = new NonAlphaElement(g.Value);
+                            }
+
 
                         }
                         else

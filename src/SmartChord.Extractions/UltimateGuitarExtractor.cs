@@ -38,6 +38,7 @@ namespace SmartChord.Extractions
             chordsheet = chordsheet.Replace("[/tab]", string.Empty);
             chordsheet = chordsheet.Replace("&#039;", "'");
             chordsheet = chordsheet.Replace("&rsquo;", "'");
+            chordsheet = chordsheet.Replace("&lsquo;", "'");
             chordsheet = chordsheet.Replace("&amp;", "&");
             chordsheet = chordsheet.Replace("&lt;", "<");
             chordsheet = chordsheet.Replace("&gt;", ">");
@@ -48,7 +49,7 @@ namespace SmartChord.Extractions
 
             if (title != null)
             {
-                chordsheet = $"Title: {title}{Environment.NewLine}{chordsheet}";
+                chordsheet = $"{title}{Environment.NewLine}{chordsheet}";
             }
 
             return chordsheet;

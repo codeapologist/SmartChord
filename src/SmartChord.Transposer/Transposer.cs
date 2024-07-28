@@ -40,36 +40,7 @@ namespace SmartChord.Transpose
 
         public async Task<string> ChangeKey(string chordsheet, string destinationKey, string originalKey = null)
         {
-            var song = _parser.ParseSong(chordsheet);
-
-            foreach(var line in song.Lines)
-            {
-                if(line.Elements.Any(x => x is ChordElement) && line.Elements.Any(y => y is WordElement))
-                {
-                    var isLyricLine =  line.Elements
-                        .Where(x => x is ChordElement)
-                        .All(x => SongAnalyzer.AmbiguousChords.Contains(x.GetText()));
-
-                    var newSongLine = new SongLine();
-
-                    for (var i = 0; i < line.Elements.Count; i++)
-                    {
-                        if (line.Elements[i] is ChordElement)
-                        {
-                            var wordElement = new WordElement(line.Elements[i].GetText());
-                            newSongLine.Elements.Add(wordElement);
-                        }
-                        else
-                        {
-                            newSongLine.Elements.Add(line.Elements[i]);
-                        }
-
-                    }
-
-                    line.Overwrite(newSongLine);
-                }
-            }
-            
+            var song = _parser.ParseSong(chordsheet);          
             
             if (string.IsNullOrWhiteSpace(originalKey))
             {
@@ -86,9 +57,32 @@ namespace SmartChord.Transpose
         {
             var noteDifference = destinationKey.ToNote() - originalKey.ToNote();
 
+            return Transpose(song, noteDifference);
+        }
+
+        public string TransposeDown(string songText)
+        {
+            var song = _parser.ParseSong(songText);
+
+            var noteDifference = -1;
+
+            return Transpose(song, noteDifference);
+        }
+
+        public string TransposeUp(string songText)
+        {
+            var song = _parser.ParseSong(songText);
+
+            var noteDifference = 1;
+
+            return Transpose(song, noteDifference);
+        }
+
+        private static string Transpose(Song song, int noteDifference)
+        {
             var chordElements = from line in song.Lines
-                from element in line.Elements.OfType<ChordElement>()
-                select element;
+                                from element in line.Elements.OfType<ChordElement>()
+                                select element;
 
             foreach (var chordElement in chordElements)
             {
@@ -113,9 +107,5 @@ namespace SmartChord.Transpose
 
             return song.ToString();
         }
-
-
-
-
     }
 }

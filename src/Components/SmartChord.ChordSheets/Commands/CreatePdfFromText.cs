@@ -47,22 +47,14 @@ namespace SmartChord.ChordSheets.Commands
 
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                string chordsheet = string.Empty;
                 var finalDestination = Path.Combine(Path.GetDirectoryName(request.DestinationFilename), $"{Path.GetFileNameWithoutExtension(request.DestinationFilename)}.pdf");
-                var songTitle = GetFirstLine(request.SongText);
+                var songTitle = request.SongText.Split('\n')[0];
 
                 // Remove the first line from the original string
                 Regex regex = new Regex(@"^.*?(\r?\n|$)");
                 request.SongText = regex.Replace(request.SongText, string.Empty, 1);
 
-                if (!string.IsNullOrEmpty(request.NewKey))
-                {
-                    var transposer = new Transposer();
-                    chordsheet = await transposer.ChangeKey(request.SongText, request.NewKey, request.OriginalKey);
-                }
-
-
-                var reader = new StringReader(chordsheet);
+                var reader = new StringReader(request.SongText);
                 var lines = new List<string>();
                 var leftSongLines = new Queue<PdfSongLine>();
                 var rightSongLines = new Queue<PdfSongLine>();
