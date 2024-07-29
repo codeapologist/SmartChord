@@ -1,4 +1,5 @@
-﻿using SmartChord.Parser.Models;
+﻿using SmartChord.Parser;
+using SmartChord.Parser.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,21 +22,6 @@ namespace SmartChord.ChordSheets.Pdf
     public class PdfHelper
     {
 
-        public static bool IsLineValidGuitarChords(string line)
-        {
-            string chordPattern = @"^([A-G](#|b)?(m|M|maj|min|dim|aug|sus|[24])?(\d{0,2})?(add\d)?(b|#)?\d{0,2}(\/[A-G](#|b)?)?)$";
-            string[] chords = Regex.Split(line.Trim(), @"\s+");
-
-            foreach (string chord in chords)
-            {
-                if (!Regex.IsMatch(chord, chordPattern))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
 
         public static string RemoveDuplicateSections(string input)
         {

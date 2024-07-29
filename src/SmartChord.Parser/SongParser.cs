@@ -123,7 +123,7 @@ namespace SmartChord.Parser
         }
 
 
-        public Song ParseSong(string chordSheet)
+        public static Song ParseSong(string chordSheet)
         {
             StringReader reader = new StringReader(chordSheet);
             var song = new Song();
@@ -179,9 +179,20 @@ namespace SmartChord.Parser
             return song;
         }
 
-        private IEnumerable<BaseElement> ProcessLine(string line)
+
+        public static bool IsChordLine(string line)
         {
-            var songTokens = Regex.Matches(line, @"([^A-Za-z0-9#/]*)([A-Za-z0-9#/]*)");
+
+            if(string.IsNullOrWhiteSpace(line)) return false;
+
+            var songLine = ParseSong(line);
+
+            return songLine.Lines.SingleOrDefault().Elements.Any( x => x is ChordElement);
+        }
+
+        private static IEnumerable<BaseElement> ProcessLine(string line)
+        {
+            var songTokens = Regex.Matches(line, @"([\s]*)([^A-Za-z0-9\#\s]*)([A-Za-z0-9\#]*)");
             BaseElement element = null;
 
             foreach (Match token in songTokens)

@@ -300,9 +300,9 @@ namespace SmartChord.Desktop
         }
 
 
-        public async Task OnNewKeyTextChanged()
+        public Task OnNewKeyTextChanged()
         {
-
+            return Task.CompletedTask;
         }
 
 
@@ -362,7 +362,7 @@ namespace SmartChord.Desktop
 
         }
 
-        public async Task OnSave()
+        public void OnSave()
         {
             PreviewText = PreviewText.Trim();
 
@@ -371,6 +371,7 @@ namespace SmartChord.Desktop
             File.WriteAllText(destination, PreviewText);
 
             MessageBox.Show($"Save successful - {destination}");
+
         }
 
         public async Task TransposeDown()

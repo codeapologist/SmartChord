@@ -22,7 +22,7 @@ namespace SmartChord.Transpose
 
         public async Task<string> ResolveSongKey(string chordsheet)
         {
-            var song = _parser.ParseSong(chordsheet);
+            var song = SongParser.ParseSong(chordsheet);
             return await Task.Run( () => ResolveSongKey(song));
         }
 
@@ -40,7 +40,7 @@ namespace SmartChord.Transpose
 
         public async Task<string> ChangeKey(string chordsheet, string destinationKey, string originalKey = null)
         {
-            var song = _parser.ParseSong(chordsheet);          
+            var song = SongParser.ParseSong(chordsheet);          
             
             if (string.IsNullOrWhiteSpace(originalKey))
             {
@@ -62,7 +62,7 @@ namespace SmartChord.Transpose
 
         public string TransposeDown(string songText)
         {
-            var song = _parser.ParseSong(songText);
+            var song = SongParser.ParseSong(songText);
 
             var noteDifference = -1;
 
@@ -71,7 +71,7 @@ namespace SmartChord.Transpose
 
         public string TransposeUp(string songText)
         {
-            var song = _parser.ParseSong(songText);
+            var song = SongParser.ParseSong(songText);
 
             var noteDifference = 1;
 

@@ -19,7 +19,7 @@ namespace SmartChord.ChordSheets.Queries
 
             public async Task<bool> Handle(Query request, CancellationToken cancellationToken)
             {
-                return SongParser.ParseExact(request.Input) != null;
+                return await Task.FromResult( SongParser.ParseExact(request.Input) != null);
             }
         }
     }

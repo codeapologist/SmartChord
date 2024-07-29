@@ -17,6 +17,7 @@ using Xceed.Words.NET;
 using System.Windows.Media.TextFormatting;
 using System.Windows;
 using System.Reflection;
+using SmartChord.Parser;
 
 namespace SmartChord.ChordSheets.Commands
 {
@@ -109,7 +110,7 @@ namespace SmartChord.ChordSheets.Commands
                         }
                     }
 
-                    if (index == (MaxLinesForColumn - 1) && (PdfHelper.IsLineValidGuitarChords(line) || IsSectionTitle(line)))
+                    if (index == (MaxLinesForColumn - 1) && (SongParser.IsChordLine(line) || IsSectionTitle(line)))
                     {
                         AddSongLine(new PdfSongLine { Line = string.Empty }, currentSongLines, IncreaseIndex);
                     }
@@ -124,7 +125,7 @@ namespace SmartChord.ChordSheets.Commands
 
                     var songLine = new PdfSongLine();
 
-                    songLine.IsChordLine = PdfHelper.IsLineValidGuitarChords(line);
+                    songLine.IsChordLine = SongParser.IsChordLine(line);
                     songLine.Line = line;
 
 
@@ -192,7 +193,7 @@ namespace SmartChord.ChordSheets.Commands
                     });
                 }).GeneratePdf(finalDestination);
 
-                return new Result {OutputFilename = finalDestination };
+                return await Task.FromResult( new Result {OutputFilename = finalDestination });
             }
 
             private static bool RemainLinesFit(int totalLineCount, int totalCount)
@@ -242,27 +243,6 @@ namespace SmartChord.ChordSheets.Commands
             return result;
         }
 
-        public static string GetFirstLine(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            // Find the index of the first newline character
-            int newlineIndex = input.IndexOf(Environment.NewLine);
-
-            if (newlineIndex == -1)
-            {
-                // If there is no newline character, return the whole string
-                return input;
-            }
-            else
-            {
-                // Return the substring from the start to the newline character
-                return input.Substring(0, newlineIndex);
-            }
-        }
-
-
         public static bool IsSectionTitle(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -303,7 +283,7 @@ namespace SmartChord.ChordSheets.Commands
             {
                 lines[index] = lines[index].TrimEnd();
                 var line = lines[index];
-                if (!PdfHelper.IsLineValidGuitarChords(line))
+                if (!SongParser.IsChordLine(line))
                 {
                     result.Add(line);
                     index++;

@@ -42,9 +42,13 @@ namespace SmartChord.Extractions
             chordsheet = chordsheet.Replace("&amp;", "&");
             chordsheet = chordsheet.Replace("&lt;", "<");
             chordsheet = chordsheet.Replace("&gt;", ">");
+            chordsheet = chordsheet.Replace("\\&quot;", "\"");
             chordsheet = chordsheet.Replace("&quot;", "\"");
+            chordsheet = chordsheet.Replace("&ldquo;", "\"");
             chordsheet = chordsheet.Replace("&hellip;", "…");
+
             
+
             chordsheet = chordsheet.Replace(@"\r\n", Environment.NewLine);
 
             if (title != null)
