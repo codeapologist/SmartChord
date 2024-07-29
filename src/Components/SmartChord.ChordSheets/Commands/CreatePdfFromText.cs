@@ -28,8 +28,6 @@ namespace SmartChord.ChordSheets.Commands
         public class Command : IRequest<Result>
         {
             public string SongText { get; set; }
-            public string NewKey { get; set; }
-            public string OriginalKey { get; set; }
             public string DestinationFilename { get; set; }
 
         }
